@@ -60,13 +60,6 @@ metadata.zipCode = "76133"
 CampaignManager.showCampaigns(metadata: metadata)
 ```
 
-## Eigener Dankestext
-Der Entwickler kann optional eine eigene Begrüßung mitgeben. Diese wird im ersten Bildschirm (Gutscheinübersicht) anstelle des Standardtexts angezeigt. 
-
-```
-CampaignManager.showCampaigns(metadata: metadata, greeting: "Vielen Dank für Ihre Anmeldung")
-```
-
 ## Callback
 Optional kann ein Callback übergeben werden, um über die Beendigung der Gutscheinauswahl informiert zu werden.
 
