@@ -40,12 +40,11 @@ CampaignManager.showCampaigns()
 ```
 
 ## Konfiguration
-Die Konfiguration erfolgt über das Config struct. Neben SDK-Key und der SDK-Token kann hier noch die primäre Farbe (primaryColor) gesetzt werden.
+Die Konfiguration erfolgt über das Config struct. Hier muss der SDK-Key und das SDK-Token gesetzt werden.
 
 ```
 Config.apiKey = "ios-sdk-123456789"
 Config.apiSecret = "123456789"
-Config.primaryColor = UIColor(red: 0.22, green: 0.65, blue: 0.43, alpha: 1)
 ```
 
 ## Metadaten
