@@ -69,7 +69,7 @@ CampaignManager.showCampaigns(metadata: metadata) {
 
 ## Author
 
-jstubenrauch, jonas.stubenrauch@arconsis.com
+NetScaleNow, technik@netscalenow.com
 
 ## License
 
