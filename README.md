@@ -55,7 +55,7 @@ Beim Anzeigen der Gutscheinliste können optional Metadaten mitgegeben werden. I
 let metadata = Metadata(email: "user.mail@foobar.com")
 metadata.gender = .male // .female
 metadata.zipCode = "76133"
-
+metadata.birthday = Date()
 CampaignManager.showCampaigns(metadata: metadata)
 ```
 
