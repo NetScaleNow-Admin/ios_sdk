@@ -69,7 +69,7 @@ CampaignManager.showCampaigns(metadata: metadata) {
 
 ## Author
 
-NetScaleNow, technik@netscalenow.com
+NetScaleNow, support@netscalenow.com
 
 ## License
 
