@@ -18,7 +18,7 @@ class ApiServiceImpl: ApiService {
   
   private init() {}
   
-  private let baseUrl = URL(string:"https://staging.cmc.arconsis.com/api")!
+  private let baseUrl = URL(string:"https://my.netscalenow.de/api")!
   
   private var configuration = URLSessionConfiguration.default
   private var session : URLSession {

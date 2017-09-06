@@ -27,13 +27,9 @@ class VoucherDetailViewController: UIViewController {
   @IBOutlet var voucherCode: UITextField!
   @IBOutlet var activityIndicator: UIActivityIndicatorView!
   @IBOutlet var checkboxContainer: UIStackView!
-  @IBOutlet var contentStackView: UIStackView!;
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    contentStackView.axis = traitCollection.verticalSizeClass == .compact ? .horizontal : .vertical;
-    
     customFont()
     
     updateUI()

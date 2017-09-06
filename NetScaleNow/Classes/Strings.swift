@@ -122,15 +122,15 @@ struct Strings {
   
   struct VoucherDetail {
     static var noNewsletterTitle : String {
-      return NSLocalizedString("VoucherDetail.noNewsletterTitle", bundle: bundle, value: "Sie haben Lust auf mehr Gutscheine?", comment: "Title if user has not subscribed to the newsletter yet.")
+      return NSLocalizedString("VoucherDetail.noNewsletterTitle", bundle: bundle, value: "Jetzt zweiten Gutschein aussuchen?", comment: "Title if user has not subscribed to the newsletter yet.")
     }
     
     static var noNewsletterSubTitle : String {
-      return NSLocalizedString("VoucherDetail.noNewsletterSubTitle", bundle: bundle, value: "Jetzt zum Newsletter anmelden!", comment: "Message below the Title if user has not subscribed to the newsletter yet.")
+      return NSLocalizedString("VoucherDetail.noNewsletterSubTitle", bundle: bundle, value: "Einfach zum Newsletter anmelden!", comment: "Message below the Title if user has not subscribed to the newsletter yet.")
     }
     
     static var subscribeToNewsletter : String {
-      return NSLocalizedString("VoucherDetail.subscribeToNewsletter", bundle: bundle, value: "KEINE AKTION MEHR VERPASSEN!", comment: "Title of the button to subscribe to the newsletter.")
+      return NSLocalizedString("VoucherDetail.subscribeToNewsletter", bundle: bundle, value: "ANMELDEN", comment: "Title of the button to subscribe to the newsletter.")
     }
     
     static var subscribedNewsletterTitle : String {
