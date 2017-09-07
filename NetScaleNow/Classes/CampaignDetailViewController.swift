@@ -30,9 +30,12 @@ class CampaignDetailViewController: UIViewController {
   @IBOutlet var voucherInformationTitle: UILabel!
   @IBOutlet var checkbox : CheckboxView!
   @IBOutlet var activityIndicator: UIActivityIndicatorView!
+  @IBOutlet var contentStackView: UIStackView!;
   
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    contentStackView.axis = traitCollection.verticalSizeClass == .compact ? .horizontal : .vertical;
     
     api.campaign(metadata: metadata, campaign: campaign) { (_, _) in
       
@@ -67,6 +70,17 @@ class CampaignDetailViewController: UIViewController {
       self.present(action, animated: true, completion: nil)
     }
   }
+  
+  override var shouldAutorotate: Bool {
+    return false;
+  }
+  
+//  override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+//    coordinator.animate(alongsideTransition: { (context) in
+//      self.contentStackView.axis = newCollection.verticalSizeClass == .compact ? .horizontal : .vertical
+//    }, completion: nil)
+//    super.willTransition(to: newCollection, with: coordinator)
+//  }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let viewController = segue.destination as? VoucherDetailViewController,
