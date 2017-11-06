@@ -1,19 +1,16 @@
 PODS:
-  - NetScaleNow (0.1.0):
-    - SwiftyJSON
-  - SwiftyJSON (3.1.4)
+  - NetScaleNow (0.1.0)
 
 DEPENDENCIES:
   - NetScaleNow (from `../`)
 
 EXTERNAL SOURCES:
   NetScaleNow:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
-  NetScaleNow: d90469b3217e7cb195f2f0b6b2c5a72f07060df7
-  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  NetScaleNow: 34ece8ecc18e4dccb9cdc0359004ea09ad8a33b9
 
 PODFILE CHECKSUM: f17126e10acf777d4146b4ebb126e7f017c3316e
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.3.1

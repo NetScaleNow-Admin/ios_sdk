@@ -16,7 +16,7 @@ class CheckboxView: ReusableView {
   var valid: Bool = true {
     didSet {
       if valid {
-        checkbox.tintColor = Config.primaryColor;
+        checkbox.tintColor = Config.tintColor;
       } else {
         checkbox.tintColor = .red;
       }

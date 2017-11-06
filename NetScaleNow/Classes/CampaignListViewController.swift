@@ -35,6 +35,7 @@ class CampaignListViewController: UIViewController {
   }
   
   var greeting : String?
+  var greetingMessage : String?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -44,7 +45,6 @@ class CampaignListViewController: UIViewController {
     
     if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
       layout.estimatedItemSize = CGSize(width: 1, height: 1)
-  //    layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize;
     }
   }
   
@@ -79,14 +79,15 @@ class CampaignListViewController: UIViewController {
   }
   
   private func updateColors() {
-    headline.textColor = Config.primaryColor
+    headline.textColor = Config.tintColor
   }
   
   private func updateStrings() {
-    headline.text = self.greeting != nil ? self.greeting!.uppercased() : Strings.CampaignList.headline
-    message.text = Strings.CampaignList.message
+    headline.text = self.greeting?.uppercased() ?? Strings.CampaignList.headline
+    message.text = self.greetingMessage ?? Strings.CampaignList.message
   }
   
+  private var selectedCampaign: Campaign?
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
     guard
@@ -96,7 +97,8 @@ class CampaignListViewController: UIViewController {
         return
     }
     
-    detailController.campaign = campaigns?[index]
+    selectedCampaign = campaigns?[index]
+    detailController.campaign = selectedCampaign
     detailController.metadata = metadata
     detailController.closeCallback = closeCallback
   }
@@ -107,8 +109,16 @@ class CampaignListViewController: UIViewController {
   }
   
   @IBAction
-  func backToOverview(_: UIStoryboardSegue) {
+  func backToOverview(_ segue: UIStoryboardSegue) {
+    guard
+      segue.source is VoucherDetailViewController,
+      let usedCampaign = selectedCampaign,
+      let index = campaigns?.index(of: usedCampaign)
+    else {
+      return
+    }
     
+    campaigns?.remove(at: index)
   }
   
 }

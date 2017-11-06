@@ -66,22 +66,11 @@ class CampaignDetailViewController: UIViewController {
       action.popoverPresentationController?.sourceView = self.checkbox;
       action.popoverPresentationController?.sourceRect = self.checkbox.bounds;
       action.popoverPresentationController?.permittedArrowDirections = [.up]
-      action.view.tintColor = Config.primaryColor
+      action.view.tintColor = Config.tintColor
       self.present(action, animated: true, completion: nil)
     }
   }
   
-  override var shouldAutorotate: Bool {
-    return false;
-  }
-  
-//  override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-//    coordinator.animate(alongsideTransition: { (context) in
-//      self.contentStackView.axis = newCollection.verticalSizeClass == .compact ? .horizontal : .vertical
-//    }, completion: nil)
-//    super.willTransition(to: newCollection, with: coordinator)
-//  }
-
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let viewController = segue.destination as? VoucherDetailViewController,
       let voucher = sender as? Voucher {
@@ -94,9 +83,9 @@ class CampaignDetailViewController: UIViewController {
   func updateUI() {
     closeButton.layer.cornerRadius = closeButton.frame.width / 2
     back.layer.cornerRadius = back.frame.width / 2
-    request.backgroundColor = Config.primaryColor
+    request.backgroundColor = Config.tintColor
         
-    pageIndicator.currentPageIndicatorTintColor = Config.primaryColor
+    pageIndicator.currentPageIndicatorTintColor = Config.tintColor
     pageIndicator.layer.shadowOffset = CGSize(width: 0, height: 0)
     pageIndicator.layer.shadowRadius = 1
     pageIndicator.layer.shadowColor = UIColor.black.cgColor
@@ -135,7 +124,7 @@ class CampaignDetailViewController: UIViewController {
       (substring, substringRange, _, _) in
       
       if (substring == Strings.CampaignDetail.checkboxTextToHighlightUsage || substring == Strings.CampaignDetail.checkboxTextToHighlightData ) {
-        attributedString.addAttribute(NSUnderlineStyleAttributeName , value: NSUnderlineStyle.styleSingle.rawValue, range: substringRange)
+        attributedString.addAttribute(NSAttributedStringKey.underlineStyle , value: NSUnderlineStyle.styleSingle.rawValue, range: substringRange)
       }
     })
     
@@ -153,17 +142,21 @@ class CampaignDetailViewController: UIViewController {
     value.text = Strings.CampaignDetail.discountFormat(discount: campaign.discount)
     detailText.text = campaign.limitationsDescription
     
-    if let logoUrl = campaign.logoUrl, !logoUrl.isEmpty {
+    if let logoUrl = campaign.resizedLogoUrl, !logoUrl.isEmpty {
       logo.imageView.setImageFrom(urlString: logoUrl)
     }
     
-    if let headerUrl = campaign.headerUrl, !headerUrl.isEmpty {
+    if let headerUrl = campaign.resizedHeaderUrl, !headerUrl.isEmpty {
       header.setImageFrom(urlString: headerUrl)
     }
   }
   
   fileprivate func showErrorAlert() {
     print("Error while requesting voucher.")
+    let alert = UIAlertController(title: "", message: Strings.General.errorMessage, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: Strings.General.close, style: .default, handler: nil))
+    
+    present(alert, animated: true, completion: nil)
   }
 }
 

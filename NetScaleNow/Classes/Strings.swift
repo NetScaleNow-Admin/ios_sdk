@@ -12,6 +12,14 @@ struct Strings {
   private static let bundle = Config.bundle
   
   struct General {
+    static var close : String {
+        return NSLocalizedString("General.close", bundle: bundle, value: "Schließen", comment: "Title of a close button")
+    }
+    
+    static var errorMessage : String {
+        return NSLocalizedString("General.errorMessage", bundle: bundle, value: "Es ist ein technischer Fehler aufgetreten. Bitte versuchen Sie es in Kürze erneut oder wenden Sie sich an kontakt@premium-shopping.de.", comment: "Generic error message")
+    }
+    
     static var backToCampaignList : String {
       return NSLocalizedString("General.backToCampaignList", bundle: bundle, value: "Zurück zur Übersicht", comment: "Title of the button to go back to the campaign list")
     }
@@ -25,37 +33,61 @@ struct Strings {
     }
     
     static var copyrightLink : String {
-      return NSLocalizedString("CampaignDetail.copyrightLink", bundle: bundle, value: "© Premium Shopping", comment: "Title of the link showing the copy right")
+      guard let copyrightLink = Config.groupConfig?.copyrightText else {
+        return NSLocalizedString("CampaignDetail.copyrightLink", bundle: bundle, value: "© Premium Shopping", comment: "Title of the link showing the copy right")
+      }
+      return copyrightLink
     }
     
     static var agbUrl : String {
-      return NSLocalizedString("CampaignDetail.agbUrl", bundle: bundle, value: "https://www.premium-shopping.de/agb", comment: "Url to the AGB (Terms of Conditions) ")
+      guard let agbUrl = Config.groupConfig?.termsLink else {
+        return NSLocalizedString("CampaignDetail.agbUrl", bundle: bundle, value: "https://www.premium-shopping.de/agb", comment: "Url to the AGB (Terms of Conditions) ")
+      }
+      return agbUrl
     }
     
     static var dataProtectionUrl : String {
-      return NSLocalizedString("CampaignDetail.dataProtectionUrl", bundle: bundle, value: "https://www.premium-shopping.de/datenschutz", comment: "Url to the data protection")
+      guard let dataProtectionUrl = Config.groupConfig?.privacyPolicyLink else {
+        return NSLocalizedString("CampaignDetail.dataProtectionUrl", bundle: bundle, value: "https://www.premium-shopping.de/datenschutz", comment: "Url to the data protection")
+      }
+      return dataProtectionUrl
     }
     
     static var checkboxPrivacyTermsUrl : String {
-      return NSLocalizedString("CampaignDetail.checkboxPrivacyTermsUrl", bundle: bundle, value: "http://www.collaborativemarketingclub.com/datenschutz", comment: "Url to the privacy terms (Datenschutzbedingungen) next to the checkbox")
+      guard let checkboxPrivacyTermsUrl = Config.groupConfig?.privacyPolicyLink else {
+        return NSLocalizedString("CampaignDetail.checkboxPrivacyTermsUrl", bundle: bundle, value: "http://www.premium-shopping.de/datenschutz", comment: "Url to the privacy terms (Datenschutzbedingungen) next to the checkbox")
+      }
+      return checkboxPrivacyTermsUrl
     }
     
     static var checkboxUsageTermsUrl : String {
-      return NSLocalizedString("CampaignDetail.checkboxUsageTermsUrl", bundle: bundle, value: "http://www.collaborativemarketingclub.com/agb", comment: "Url to the usage terms (Nutzungsbedingungen) next to the checkbox")
+      guard let checkboxUsageTermsUrl = Config.groupConfig?.termsLink else {
+        return NSLocalizedString("CampaignDetail.checkboxUsageTermsUrl", bundle: bundle, value: "http://www.premium-shopping.de/agb", comment: "Url to the usage terms (Nutzungsbedingungen) next to the checkbox")
+      }
+      return checkboxUsageTermsUrl
     }
     
     static var copyrightUrl : String {
-      return NSLocalizedString("CampaignDetail.copyrightUrl", bundle: bundle, value: "https://www.premium-shopping.de", comment: "Url to copy right")
+      guard let copyrightUrl = Config.groupConfig?.copyrightLink else {
+        return NSLocalizedString("CampaignDetail.copyrightUrl", bundle: bundle, value: "https://www.premium-shopping.de", comment: "Url to copy right")
+      }
+      return copyrightUrl
     }
   }
   
   struct CampaignList {
     static var headline : String {
-      return NSLocalizedString("CampaignList.headline", bundle: bundle, value: "VIELEN DANK FÜR IHREN EINKAUF!", comment: "Headline of the Campaign Selection View")
+      guard let headline = Config.groupConfig?.campaignListTitle.uppercased().brReplaced() else {
+        return NSLocalizedString("CampaignList.headline", bundle: bundle, value: "VIELEN DANK FÜR IHREN EINKAUF!", comment: "Headline of the Campaign Selection View")
+      }
+      return headline
     }
     
     static var message : String {
+      guard let message = Config.groupConfig?.campaignListSubtitle.brReplaced() else {
       return NSLocalizedString("CampaignList.message", bundle: bundle, value: "Als Dankeschön dürfen Sie sich einen Gratisgutschein aussuchen. ", comment: "Message below the Headline of the Campaign Selection View")
+      }
+      return message
     }
   }
   
@@ -122,11 +154,17 @@ struct Strings {
   
   struct VoucherDetail {
     static var noNewsletterTitle : String {
+      guard let noNewsletterTitle = Config.groupConfig?.newsletterTitle.brReplaced() else {
       return NSLocalizedString("VoucherDetail.noNewsletterTitle", bundle: bundle, value: "Jetzt zweiten Gutschein aussuchen?", comment: "Title if user has not subscribed to the newsletter yet.")
+      }
+      return noNewsletterTitle
     }
     
     static var noNewsletterSubTitle : String {
+      guard let noNewsletterSubTitle = Config.groupConfig?.newsletterSubtitle.brReplaced() else {
       return NSLocalizedString("VoucherDetail.noNewsletterSubTitle", bundle: bundle, value: "Einfach zum Newsletter anmelden!", comment: "Message below the Title if user has not subscribed to the newsletter yet.")
+      }
+      return noNewsletterSubTitle
     }
     
     static var subscribeToNewsletter : String {
@@ -134,15 +172,24 @@ struct Strings {
     }
     
     static var subscribedNewsletterTitle : String {
+      guard let subscribedNewsletterTitle = Config.groupConfig?.nextVoucherTitle.brReplaced() else {
       return NSLocalizedString("VoucherDetail.subscribedNewsletterTitle", bundle: bundle, value: "Sie wollen noch mehr sparen beim Shoppen?", comment: "Title if user has subscribed to the newsletter.")
+      }
+      return subscribedNewsletterTitle
     }
     
     static var subscribedNewsletterSubTitle : String {
+      guard let subscribedNewsletterSubTitle = Config.groupConfig?.nextVoucherSubtitle.brReplaced() else {
       return NSLocalizedString("VoucherDetail.subscribedNewsletterSubTitle", bundle: bundle, value: "Suchen Sie sich exklusiv einen weiteren Gutschein aus!", comment: "Message below the Title if user has subscribed to the newsletter.")
+      }
+      return subscribedNewsletterSubTitle
     }
     
     static var noVouchersLeftMessage : String {
+      guard let noVouchersLeftMessage = Config.groupConfig?.maximumReachedText.brReplaced() else {
         return NSLocalizedString("VoucherDetail.noVouchersLeftMessage", bundle: bundle, value: "Sie haben die maximale Anzahl an Gutscheinen erreicht.\nWir halten Sie über neue Gutscheine per Newsletter auf dem Laufenden.\nViel Spaß beim Shoppen!", comment: "Title if user has reached the maxium number of vouchers.")
+      }
+      return noVouchersLeftMessage
     }
     
     static var backToCampaignList : String {
@@ -150,11 +197,17 @@ struct Strings {
     }
     
     static var checkboxText : String {
+     guard let checkboxText = Config.groupConfig?.userAgreementText.brReplaced() else {
       return NSLocalizedString("VoucherDetail.checkboxText", bundle: bundle, value: "Ja, ich möchte künftig den kostenlosen Premium Shopping Newsletter per E-Mail erhalten. Das Einverständnis kann ich jederzeit widerrufen.", comment: "Text shown next to the checkbox.")
+      }
+      return checkboxText
     }
     
     static var voucherCodeTitle : String {
+      guard let voucherCodeTitle = Config.groupConfig?.voucherTitle.uppercased().brReplaced() else {
       return NSLocalizedString("VoucherDetail.voucherCodeTitle", bundle: bundle, value: "IHR GUTSCHEINCODE", comment: "Title above the voucher code.")
+      }
+      return voucherCodeTitle
     }
     
     static var linkToShop : String {
@@ -162,7 +215,10 @@ struct Strings {
     }
     
     static var voucherViaMailHint : String {
+      guard let voucherViaMailHint = Config.groupConfig?.voucherNote.brReplaced() else {
       return NSLocalizedString("VoucherDetail.voucherViaMailHint", bundle: bundle, value: "Sie erhalten den Gutschein in wenigen Augenblicken\nzusätzlich per Mail.", comment: "Hint message to indicate the voucher is send via mail.")
+      }
+      return voucherViaMailHint
     }
     
     struct OpenShopAlert {
@@ -185,5 +241,11 @@ struct Strings {
     
     
     
+  }
+}
+
+extension String {
+  func brReplaced() -> String {
+    return self.replacingOccurrences(of: "<br>", with: "\n")
   }
 }

@@ -26,7 +26,7 @@ class CampaignCollectionViewCell: UICollectionViewCell {
   @IBOutlet
   var arrow: UIImageView! {
     didSet {
-      arrow.tintColor = Config.primaryColor
+      arrow.tintColor = Config.tintColor
     }
   }
   
@@ -104,7 +104,7 @@ extension CampaignCollectionViewCell {
     if (limitations.text != nil && limitations.text!.lengthOfBytes(using: .utf8) == 0){
       limitations.text = campaign.limitationsDescription
     }
-    if let logoUrl = campaign.logoUrl {
+    if let logoUrl = campaign.resizedLogoUrl {
       imageView.setImage(image: logoUrl)
 
     }

@@ -61,9 +61,9 @@ class VoucherDetailViewController: UIViewController {
   
   fileprivate func updateUI() {
     useVoucherButton.isHidden = voucher.campaign?.shopLink == nil
-    useVoucherButton.setTitleColor(Config.primaryColor, for: .normal)
+    useVoucherButton.setTitleColor(Config.tintColor, for: .normal)
     newsletterButton.titleLabel?.adjustsFontSizeToFitWidth = true
-    newsletterButton.backgroundColor = Config.primaryColor
+    newsletterButton.backgroundColor = Config.tintColor
     
     newsletterTitle.font = UIFont(name: "AbrilFatface-Regular", size: 24)
     newsletterSubTitle.font = UIFont(name: "AbrilFatface-Regular", size: 15)
@@ -188,6 +188,6 @@ public extension UIFont {
     }
     
     let font = CGFont(dataProvider)
-    CTFontManagerRegisterGraphicsFont(font, nil)
+    CTFontManagerRegisterGraphicsFont(font!, nil)
   }
 }

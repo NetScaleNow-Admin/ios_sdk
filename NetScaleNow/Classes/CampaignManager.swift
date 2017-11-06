@@ -20,8 +20,9 @@ public class CampaignManager: NSObject {
   /// - Parameters:
   ///   - metadata: optional, metadata about the user.
   ///   - greeting: optional greeting text replacing 'Vielen Dank für ihren Einkauf'
+  ///   - greetingMessage: optional gretting message replacing the default one
   ///   - callback: optional, called after the user has dismissed the ui
-  public static func showCampaigns(metadata: Metadata = Metadata(), greeting: String? = nil, callback: (() -> Void)? = nil) {
+  public static func showCampaigns(metadata: Metadata = Metadata(), greeting: String? = nil, greetingMessage: String? = nil, callback: (() -> Void)? = nil) {
     
     metadata.numberOfRequestedVouchers = 0
     
@@ -43,7 +44,7 @@ public class CampaignManager: NSObject {
       let navigationController = storyboad.instantiateInitialViewController() as! UINavigationController
       navigationController.transitioningDelegate = shared
       navigationController.modalPresentationStyle = .custom
-      navigationController.view.tintColor = Config.primaryColor
+      navigationController.view.tintColor = Config.tintColor
       
       let viewController = UIApplication.shared.topMostViewController()!
       
@@ -51,6 +52,7 @@ public class CampaignManager: NSObject {
       campaignList.campaigns = campaigns
       campaignList.metadata = metadata
       campaignList.greeting = greeting
+      campaignList.greetingMessage = greetingMessage
       
       campaignList.closeCallback = {
         viewController.dismiss(animated: true, completion: { 

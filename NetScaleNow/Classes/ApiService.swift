@@ -1,5 +1,4 @@
 import Foundation
-import SwiftyJSON
 
 protocol ApiService {
   typealias SubscribeCallback = (Bool, Error?) -> Void
@@ -17,8 +16,10 @@ class ApiServiceImpl: ApiService {
   static let shared = ApiServiceImpl()
   
   private init() {}
-  
-  private let baseUrl = URL(string:"https://my.netscalenow.de/api")!
+
+//  private let baseUrl = URL(string:"http://localhost:8080")!
+//  private let baseUrl = URL(string:"https://cmc.arconsis.com/api")!
+  private let baseUrl = URL(string:"https://staging.cmc.arconsis.com/api")!
   
   private var configuration = URLSessionConfiguration.default
   private var session : URLSession {
@@ -77,12 +78,15 @@ class ApiServiceImpl: ApiService {
             return
         }
         
-        let json = JSON(data: data)
-        
-        let campaign = Campaign(json: json)
-        
-        DispatchQueue.main.async {
-          callback(campaign, nil)
+        let decoder = JSONDecoder()
+        do {
+          let campaign = try decoder.decode(Campaign.self, from: data)
+          DispatchQueue.main.async {
+            callback(campaign, nil)
+          }
+        } catch {
+          debugPrint(error)
+          callback(nil, error)
         }
         
       }).resume()
@@ -169,7 +173,7 @@ class ApiServiceImpl: ApiService {
   }
   
   private func campaignsRequest(with metadata: Metadata) -> URLRequest {
-    var url = baseUrl.appendingPathComponent("campaigns")
+    var url = baseUrl.appendingPathComponent("campaigns").appendingPathComponent("container")
     url = add(metadata: metadata, to: url)
     
     return URLRequest(url: url)
@@ -209,51 +213,54 @@ class ApiServiceImpl: ApiService {
   
   
   fileprivate func parseCampaignData(data: Data, callback: @escaping CampaignsCallback) {
-    let json = JSON(data: data).arrayValue
     
-    var result = [Campaign]()
-    for campaignJson in json {
-      result.append(Campaign(json: campaignJson))
-    }
+    let decoder = JSONDecoder()
     
-    DispatchQueue.main.async {
-      callback(result, nil)
+    do {
+      let container = try decoder.decode(Container.self, from: data)
+      Config.groupConfig = container.groupConfig
+      DispatchQueue.main.async {
+        callback(container.campaigns, nil)
+      }
+    } catch {
+      debugPrint(error)
+      callback(nil, error)
     }
   }
   
   fileprivate func parseVoucherData(data: Data, campaign: Campaign, callback: @escaping VoucherCallback) {
-    let json = JSON(data: data)
     
-    var voucher = Voucher(json: json)
-    voucher.campaign = campaign
+    let decoder = JSONDecoder()
     
-    DispatchQueue.main.async {
-      callback(voucher, nil)
+    do {
+      var voucher = try decoder.decode(Voucher.self, from: data)
+      voucher.campaign = campaign
+      
+      DispatchQueue.main.async {
+        callback(voucher, nil)
+      }
+    } catch {
+      debugPrint(error)
+      callback(nil, error)
     }
   }
   
   typealias TokenCallback = () -> Void
-  private var token: String?
-  private var refreshToken: String?
-  private var tokenTimeout: Date?
-  private var refreshTokenTimeout: Date?
+  private var token: Token?
   
   private func resetToken() {
     token = nil
-    refreshToken = nil
-    tokenTimeout = nil
-    refreshTokenTimeout = nil
+
   }
   
   private func updateToken(callback: @escaping TokenCallback) {
     
-    let tokenValid = token != nil && tokenTimeout != nil && Date() < tokenTimeout!
-    let refreshTokenValid = refreshToken != nil && refreshTokenTimeout != nil && Date() < refreshTokenTimeout!
     
-    if (tokenValid) {
+    
+    if (token?.tokenIsValid ?? false) {
       callback()
-    } else if (refreshTokenValid) {
-      refreshToken(refreshToken: refreshToken!, callback: callback)
+    } else if (token?.refreshTokenIsValid ?? false) {
+      refreshToken(refreshToken: token!.refreshToken, callback: callback)
     } else {
       requestToken(callback: callback)
     }
@@ -305,17 +312,21 @@ class ApiServiceImpl: ApiService {
     session.dataTask(with: request) { (jsonData, response, error) in
       guard let jsonData = jsonData else { return }
       
+      let decoder = JSONDecoder()
+      decoder.dateDecodingStrategy = .custom { d in
+        let seconds = try d.singleValueContainer().decode(Double.self)
+        return Date(timeIntervalSinceNow: seconds)
+      }
       
-      let json = JSON(data: jsonData)
+      do {
+        self.token = try decoder.decode(Token.self, from: jsonData)
+        self.configuration.httpAdditionalHeaders = ["Authorization": "bearer \(self.token!.accessToken)"]
+        callback()
+      } catch {
+        debugPrint(error)
+      }
       
-      self.token = json["access_token"].string
-      self.refreshToken = json["refresh_token"].string
-      self.tokenTimeout = Date(timeIntervalSinceNow: json["expires_in"].doubleValue)
-      self.refreshTokenTimeout = Date(timeIntervalSinceNow: json["refresh_expires_in"].doubleValue)
       
-      self.configuration.httpAdditionalHeaders = ["Authorization": "bearer \(self.token!)"]
-      
-      callback()
       }.resume()
   }
   

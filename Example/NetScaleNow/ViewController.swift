@@ -12,7 +12,8 @@ import NetScaleNow
 class ViewController: UIViewController {
   
   @IBAction func showCampaigns(_ sender: Any) {
-    Config.primaryColor = Config.defaultColor
+    
+    Config.primaryColor = nil
     
     let metadata = Metadata(email: "max.mustermann@email.com")
     metadata.gender = .male
@@ -43,7 +44,7 @@ class ViewController: UIViewController {
     metadata.firstName = "Max"
     metadata.lastName = "Mustermann"
     
-    CampaignManager.showCampaigns(metadata: metadata, greeting: "Vielen Dank für Ihre Registrierung") {
+    CampaignManager.showCampaigns(metadata: metadata, greeting: "Vielen Dank für deine Registrierung", greetingMessage:"Bitte such dir einen Gutschein aus") {
       print("Finished Voucher Selection")
     }
   }

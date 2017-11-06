@@ -1,5 +1,6 @@
 # NetScaleNow
 
+[![CI Status](http://img.shields.io/travis/jstubenrauch/NetScaleNow.svg?style=flat)](https://travis-ci.org/jstubenrauch/NetScaleNow)
 [![Version](https://img.shields.io/cocoapods/v/NetScaleNow.svg?style=flat)](http://cocoapods.org/pods/NetScaleNow)
 [![License](https://img.shields.io/cocoapods/l/NetScaleNow.svg?style=flat)](http://cocoapods.org/pods/NetScaleNow)
 [![Platform](https://img.shields.io/cocoapods/p/NetScaleNow.svg?style=flat)](http://cocoapods.org/pods/NetScaleNow)
@@ -40,7 +41,7 @@ CampaignManager.showCampaigns()
 ```
 
 ## Konfiguration
-Die Konfiguration erfolgt über das Config struct. Hier muss der SDK-Key und das SDK-Token gesetzt werden.
+Die Konfiguration erfolgt über das Config struct. Hier kann der SDK-Key und das SDK-Token gesetzt werden.
 
 ```
 Config.apiKey = "ios-sdk-123456789"
@@ -54,8 +55,15 @@ Beim Anzeigen der Gutscheinliste können optional Metadaten mitgegeben werden. I
 let metadata = Metadata(email: "user.mail@foobar.com")
 metadata.gender = .male // .female
 metadata.zipCode = "76133"
-metadata.birthday = Date()
+
 CampaignManager.showCampaigns(metadata: metadata)
+```
+
+## Eigener Dankestext
+Der Entwickler kann optional eine eigene Begrüßung mitgeben. Diese wird im ersten Bildschirm (Gutscheinübersicht) anstelle des Standardtexts angezeigt. 
+
+```
+CampaignManager.showCampaigns(metadata: metadata, greeting: "Vielen Dank für Ihre Anmeldung")
 ```
 
 ## Callback
@@ -69,7 +77,7 @@ CampaignManager.showCampaigns(metadata: metadata) {
 
 ## Author
 
-NetScaleNow, support@netscalenow.com
+jstubenrauch, jonas.stubenrauch@arconsis.com
 
 ## License
 

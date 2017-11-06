@@ -7,21 +7,15 @@
 //
 
 import Foundation
-import SwiftyJSON
 
-
-struct Voucher {
+struct Voucher: Codable {
   var code: String
   var subscribedToNewsletter = false
-  var campaign: Campaign?
+  var campaign: Campaign? = nil
   
-  init(code: String, subscribedToNewsletter: Bool) {
-    self.code = code
-    self.subscribedToNewsletter = subscribedToNewsletter
-  }
-  
-  init(json: JSON) {
-    code = json["code"].stringValue
-    subscribedToNewsletter = json["hasSubscribedToNewsletter"].boolValue
-  }
+  private enum CodingKeys: String, CodingKey {
+    case code
+    case subscribedToNewsletter = "hasSubscribedToNewsletter"
+   }
+    
 }

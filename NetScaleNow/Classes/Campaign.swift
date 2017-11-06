@@ -7,10 +7,8 @@
 //
 
 import Foundation
-import SwiftyJSON
 
-
-struct Campaign {
+struct Campaign :Codable {
   var id: Int
   var name: String
   var discount: String
@@ -21,34 +19,37 @@ struct Campaign {
   var headerUrl: String?
   var shopLink: String?
   var limitationsDescription: String?
-  init(json: JSON) {
-    id = json["id"].intValue
-    name = json["name"].stringValue
-    discount = json["value"].stringValue
-    
-    logoUrl = json["advertiserLogoUrl"].string
-    headerUrl = json["campaignImageUrl"].string
-    
-    if let limits = json["limitations"].string {
-      limitations = limits.replacingOccurrences(of: "\\n", with: "\n")
+    var resizedLogoUrl: String? {
+        guard let logoUrl = logoUrl else {
+            return nil
+        }
+        return "http://my.netscalenow.de/r/thumbnail?url=\(logoUrl)&height=\((60 * UIScreen.main.scale))"
     }
-    
-    if let limits = json["limitationsDescription"].string {
-       limitationsDescription = limits.replacingOccurrences(of: "\\n", with: "\n")
+    var resizedHeaderUrl: String? {
+        guard let headerUrl = headerUrl else {
+            return nil
+        }
+        
+        let size = 304 * UIScreen.main.scale
+        return "http://my.netscalenow.de/r/resize?url=\(headerUrl)&width=\(size)&height=\(size)"
     }
-    desc = json["description"].string
-    shopLink = json["shopLink"].string
-  }
   
-  init(id: Int, name: String, discount: String, logoUrl: String?, headerUrl: String?, limitations: String?, description: String?, shopLink: String?) {
-    self.id = id
-    self.name = name
-    self.discount = discount
-    self.logoUrl = logoUrl
-    self.headerUrl = headerUrl
-    self.limitations = limitations
-    self.desc = description
-    self.shopLink = shopLink
+  private enum CodingKeys: String, CodingKey {
+    case id
+    case name
+    case discount = "value"
+    case logoUrl = "advertiserLogoUrl"
+    case headerUrl = "campaignImageUrl"
+    case limitations
+    case limitationsDescription
+    case desc = "description"
+    case shopLink
+  }
+}
+
+extension Campaign: Equatable {
+  static func ==(lhs: Campaign, rhs: Campaign) -> Bool {
+    return lhs.id == rhs.id
   }
 }
 
