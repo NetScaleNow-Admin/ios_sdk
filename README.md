@@ -1,6 +1,6 @@
 # NetScaleNow
 
-[![CI Status](http://img.shields.io/travis/jstubenrauch/NetScaleNow.svg?style=flat)](https://travis-ci.org/jstubenrauch/NetScaleNow)
+[![CI Status](http://img.shields.io/travis/jstubenrauch/NetScaleNow.svg?style=flat)](https://travis-ci.org/netscalenow/ios_sdk)
 [![Version](https://img.shields.io/cocoapods/v/NetScaleNow.svg?style=flat)](http://cocoapods.org/pods/NetScaleNow)
 [![License](https://img.shields.io/cocoapods/l/NetScaleNow.svg?style=flat)](http://cocoapods.org/pods/NetScaleNow)
 [![Platform](https://img.shields.io/cocoapods/p/NetScaleNow.svg?style=flat)](http://cocoapods.org/pods/NetScaleNow)
